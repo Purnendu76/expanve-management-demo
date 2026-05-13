@@ -10,6 +10,19 @@ const data = [
   { month: "Mar", "Invoiced Amount": 720, "Paid Amount": 650 },
 ];
 
+interface ChartTooltipPayload {
+  name?: any;
+  value?: any;
+  color?: any;
+  [key: string]: any;
+}
+
+interface ChartTooltipProps {
+  active?: boolean;
+  payload?: readonly ChartTooltipPayload[];
+  label?: any;
+}
+
 export function ExpenseTrendChart() {
   return (
     <Paper
@@ -82,7 +95,7 @@ export function ExpenseTrendChart() {
         curveType="monotone"
         withTooltip
         tooltipProps={{
-          content: ({ active, payload, label }: unknown) => {
+          content: ({ active, payload, label }: ChartTooltipProps) => {
             if (active && payload && payload.length) {
               return (
                 <Paper
@@ -99,7 +112,7 @@ export function ExpenseTrendChart() {
                     {label}
                   </Text>
 
-                  {payload.map((item: unknown) => (
+                  {payload.map((item: ChartTooltipPayload) => (
                     <Group key={item.name} gap={6}>
                       <Box
                         w={8}
